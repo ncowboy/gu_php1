@@ -19,6 +19,7 @@ b = 1, a = 2. Дополнительные переменные использо
 
 $h1 = 'Домашнее задание к уроку 1';
 $title = 'PHP Уровень 1';
+$date = date('Y');
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -60,5 +61,8 @@ $a -= $b;
 echo "a={$a}<br>";
 echo "b={$b}<br>";
 ?>
+<footer>
+  <div><?= $date; ?></div>
+</footer>
 </body>
 </html>
