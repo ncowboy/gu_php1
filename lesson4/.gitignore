@@ -1,1 +1,2 @@
-public_html/img
+public_html/img/*
+!public_html/img/.gitkeep
