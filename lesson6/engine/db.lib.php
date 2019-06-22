@@ -3,7 +3,7 @@ require_once ROOT_DIR . 'config/db.config.php';
 function connect()
 {
   return mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
-}                                                                                   
+}
 
 function result($link, $sql)
 {
@@ -11,16 +11,61 @@ function result($link, $sql)
   return $res;
 }
 
-
-function getProducts()
+function getItems($table, $sort = false, $desc = false)
 {
   $items = [];
-  $sql = 'SELECT * FROM products';
+  $sql = "SELECT * FROM {$table}";
+  if($sort) {
+      $sql .= " ORDER BY {$sort}";
+  }
+  if($desc) {
+      $sql .= ' DESC';
+  }
   $result = result(connect(), $sql);
   while ($row = mysqli_fetch_assoc($result)) {
     $items[] = $row;
   }
   mysqli_close(connect());
   return $items;
+}
 
+function getItemById($id, $table)
+{
+    $sql = "SELECT * FROM {$table} WHERE id = {$id}";
+    $result = result(connect(), $sql);
+    mysqli_close(connect());
+    return mysqli_fetch_assoc($result);
+
+}
+
+function addItem($table, $values) {
+    $columns = '';
+    $vals = '';
+    foreach ($values as $key => $value){
+        $columns .= $key . ', ';
+        $vals .= '\'' . $value . '\''  . ', ';
+    }
+    $columnsFormatted = mb_substr($columns, 0, mb_strlen($columns)-2);
+    $valsFormatted = mb_substr($vals, 0, mb_strlen($vals)-2);
+    $sql = "INSERT INTO {$table}({$columnsFormatted}) VALUES({$valsFormatted})";
+    if(result(connect(), $sql)) {
+        return mysqli_close(connect());
+    }
+
+}
+
+function getProducts($sort = false, $desc = false) {
+    return getItems('products', $sort, $desc);
+}
+
+function getFeedbacks($sort, $desc) {
+    return getItems('feedbacks', $sort, $desc);
+}
+
+function getProduct($id) {
+    return getItemById($id, 'products');
+}
+
+function addFeedback($values) {
+   return addItem('feedbacks', $values);
 }
