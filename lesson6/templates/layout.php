@@ -52,7 +52,7 @@
 </header>
 <main>
   <div class="container">
-      <?php include_once TEMPLATES_DIR . getTemplate();?>
+    <?php include_once TEMPLATES_DIR . getTemplate(); ?>
   </div>
 </main>
 </body>

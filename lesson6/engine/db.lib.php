@@ -15,11 +15,11 @@ function getItems($table, $sort = false, $desc = false)
 {
   $items = [];
   $sql = "SELECT * FROM {$table}";
-  if($sort) {
-      $sql .= " ORDER BY {$sort}";
+  if ($sort) {
+    $sql .= " ORDER BY {$sort}";
   }
-  if($desc) {
-      $sql .= ' DESC';
+  if ($desc) {
+    $sql .= ' DESC';
   }
   $result = result(connect(), $sql);
   while ($row = mysqli_fetch_assoc($result)) {
@@ -31,41 +31,81 @@ function getItems($table, $sort = false, $desc = false)
 
 function getItemById($id, $table)
 {
-    $sql = "SELECT * FROM {$table} WHERE id = {$id}";
-    $result = result(connect(), $sql);
-    mysqli_close(connect());
-    return mysqli_fetch_assoc($result);
+  $sql = "SELECT * FROM {$table} WHERE id = {$id}";
+  $result = result(connect(), $sql);
+  mysqli_close(connect());
+  return mysqli_fetch_assoc($result);
 
 }
 
-function addItem($table, $values) {
-    $columns = '';
-    $vals = '';
-    foreach ($values as $key => $value){
-        $columns .= $key . ', ';
-        $vals .= '\'' . $value . '\''  . ', ';
-    }
-    $columnsFormatted = mb_substr($columns, 0, mb_strlen($columns)-2);
-    $valsFormatted = mb_substr($vals, 0, mb_strlen($vals)-2);
-    $sql = "INSERT INTO {$table}({$columnsFormatted}) VALUES({$valsFormatted})";
-    if(result(connect(), $sql)) {
-        return mysqli_close(connect());
-    }
-
+function addItem($table, $values)
+{
+  $columns = '';
+  $vals = '';
+  foreach ($values as $key => $value) {
+    $columns .= $key . ', ';
+    $vals .= '\'' . $value . '\'' . ', ';
+  }
+  $columnsFormatted = mb_substr($columns, 0, mb_strlen($columns) - 2);
+  $valsFormatted = mb_substr($vals, 0, mb_strlen($vals) - 2);
+  $sql = "INSERT INTO {$table}({$columnsFormatted}) VALUES({$valsFormatted})";
+  if (result(connect(), $sql)) {
+    return mysqli_close(connect());
+  }
 }
 
-function getProducts($sort = false, $desc = false) {
-    return getItems('products', $sort, $desc);
+function deleteItem($id, $table)
+{
+  $sql = "DELETE FROM {$table} WHERE id = {$id}";
+  if (result(connect(), $sql)) {
+    return mysqli_close(connect());
+  }
 }
 
-function getFeedbacks($sort, $desc) {
-    return getItems('feedbacks', $sort, $desc);
+function updateItem($id, $table, $values)
+{
+  $sql = "UPDATE {$table} SET ";
+  foreach ($values as $key => $value) {
+    $sql .= "{$key}='{$value}', ";
+  }
+  $sqlFormatted = mb_substr($sql, 0, mb_strlen($sql) - 2);
+  $sqlFormatted .= "WHERE id = {$id}";
+  if (result(connect(), $sqlFormatted)) {
+    return mysqli_close(connect());
+  }
 }
 
-function getProduct($id) {
-    return getItemById($id, 'products');
+function getProducts($sort = false, $desc = false)
+{
+  return getItems('products', $sort, $desc);
 }
 
-function addFeedback($values) {
-   return addItem('feedbacks', $values);
+function getFeedbacks($sort, $desc)
+{
+  return getItems('feedbacks', $sort, $desc);
+}
+
+function getProduct($id)
+{
+  return getItemById($id, 'products');
+}
+
+function getFeedback($id)
+{
+  return getItemById($id, 'feedbacks');
+}
+
+function addFeedback($values)
+{
+  return addItem('feedbacks', $values);
+}
+
+function deleteFeedback($id)
+{
+  return deleteItem($id, 'feedbacks');
+}
+
+function updateFeedback($id, $values)
+{
+  return updateItem($id, 'feedbacks', $values);
 }

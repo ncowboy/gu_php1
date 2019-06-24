@@ -1,3 +1,4 @@
 .idea
 lesson
 template
+config/db.config.php
