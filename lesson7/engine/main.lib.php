@@ -1,4 +1,5 @@
 <?php
+
 function getRoute()
 {
   $uri = $_SERVER['REQUEST_URI'];
@@ -22,6 +23,12 @@ function getTemplate()
       break;
     case '/feedback-edit':
       $template = 'feedback-edit.php';
+      break;
+    case '/login':
+      $template = 'login.php';
+      break;
+    case '/register':
+      $template = 'register.php';
       break;
     default:
       $template = 'catalog.php';

@@ -1,9 +1,3 @@
-<?php
-echo '<pre>';
-print_r ($_SESSION);
-echo '</pre>';
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +26,12 @@ echo '</pre>';
           <a class="nav-link" href="/feedbacks">Отзывы</a>
         </li>
       </ul>
-      <button class="btn btn-success ml-3" data-toggle="modal" data-target="#signInModal" type="button">Вход</button>
+      <?php if ($_SESSION['isAuth']) : ?>
+        <div>Вы вошли как:  <a href="/profile"><?=$_SESSION['user_name']?> </a></div>
+      <?php else: ?>
+        <a href="/login" class="nav-link">Вход</a>
+        <a href="/register" class="nav-link">Регистрация</a>
+      <?php endif; ?>
       <button class="btn btn-success ml-3" type="button"><i
             class="fas fa-shopping-cart"></i></button>
     </div>
@@ -56,10 +55,15 @@ echo '</pre>';
   <div class="container">
     <?php include_once TEMPLATES_DIR . getTemplate(); ?>
   </div>
-  <?php include_once TEMPLATES_DIR . 'sign-in-modal.php'; ?>
 </main>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -38,6 +38,13 @@ function getItemById($id, $table)
 
 }
 
+function getItemByParam($param, $value, $table) {
+  $sql = "SELECT * FROM {$table} WHERE {$param}='{$value}'";
+  $result = result(connect(), $sql);
+  mysqli_close(connect());
+  return mysqli_fetch_assoc($result);
+}
+
 function addItem($table, $values)
 {
   $columns = '';
@@ -98,6 +105,16 @@ function getFeedback($id)
 function addFeedback($values)
 {
   return addItem('feedbacks', $values);
+}
+
+function addUser($values)
+{
+  return addItem('users', $values);
+}
+
+function getUser($login)
+{
+  return getItemByParam('login', $login, 'users');
 }
 
 function deleteFeedback($id)
