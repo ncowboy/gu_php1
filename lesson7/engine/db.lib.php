@@ -45,9 +45,10 @@ function getItemByParam($param, $value, $table) {
   return mysqli_fetch_assoc($result);
 }
 
-function addItem($table, $values)
+function addItem($table, $values = null)
 {
-  $columns = '';
+    var_dump('wtf');
+    $columns = '';
   $vals = '';
   foreach ($values as $key => $value) {
     $columns .= $key . ', ';
@@ -55,9 +56,14 @@ function addItem($table, $values)
   }
   $columnsFormatted = mb_substr($columns, 0, mb_strlen($columns) - 2);
   $valsFormatted = mb_substr($vals, 0, mb_strlen($vals) - 2);
-  $sql = "INSERT INTO {$table}({$columnsFormatted}) VALUES({$valsFormatted})";
+  $sql = "INSERT INTO {$table}({$columnsFormatted})";
+  echo $sql;
+  if(!is_null($values)){
+      $sql .= " VALUES({$valsFormatted})";
+  }
+
   if (result(connect(), $sql)) {
-    return mysqli_close(connect());
+    return mysqli_insert_id(connect());
   }
 }
 
@@ -110,6 +116,11 @@ function addFeedback($values)
 function addUser($values)
 {
   return addItem('users', $values);
+}
+
+function addCart(){
+    echo 'wtf';
+    return addItem('carts');
 }
 
 function getUser($login)

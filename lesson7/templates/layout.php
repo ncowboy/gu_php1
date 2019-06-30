@@ -1,3 +1,12 @@
+<?php
+//echo '<pre>';
+//print_r($_SESSION);
+//echo '</pre>';
+
+//echo '<pre>';
+//print_r($_POST);
+//echo '</pre>';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,12 +35,12 @@
           <a class="nav-link" href="/feedbacks">Отзывы</a>
         </li>
       </ul>
-      <?php if ($_SESSION['isAuth']) : ?>
-        <div>Вы вошли как:  <a href="/profile"><?=$_SESSION['user_name']?> </a></div>
-      <?php else: ?>
-        <a href="/login" class="nav-link">Вход</a>
-        <a href="/register" class="nav-link">Регистрация</a>
-      <?php endif; ?>
+        <?php if ($_SESSION['isAuth']) : ?>
+          <div class="text-white-50">Вы вошли как: <a href="/profile"><?= $_SESSION['user_name'] ?> </a></div>
+        <?php else: ?>
+          <a href="/login" class="nav-link">Вход</a>
+          <a href="/register" class="nav-link">Регистрация</a>
+        <?php endif; ?>
       <button class="btn btn-success ml-3" type="button"><i
             class="fas fa-shopping-cart"></i></button>
     </div>
@@ -53,7 +62,7 @@
 </header>
 <main>
   <div class="container">
-    <?php include_once TEMPLATES_DIR . getTemplate(); ?>
+      <?php include_once TEMPLATES_DIR . getTemplate(); ?>
   </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

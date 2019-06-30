@@ -30,6 +30,9 @@ function getTemplate()
     case '/register':
       $template = 'register.php';
       break;
+    case '/profile':
+      $template = 'profile.php';
+      break;
     default:
       $template = 'catalog.php';
       break;
