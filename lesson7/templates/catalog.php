@@ -10,9 +10,10 @@
         <a href="product?id=<?= $product['id'] ?>" class="btn btn-link">Подробнее</a>
         <form class="form-inline" action="#" method="post">
           <div class="btn-group mx-auto">
-            <input type="hidden" name="cart[product_id]" value="<?= $product['id'] ?>">
-            <input class="form-control" type="number" name="cart[quanity]" value="1" min="0" max="10">
-            <button type="submit" class="cart-button btn btn-primary" name="cart[submit]" title="В корзину"
+            <input type="hidden" name="cart<?= $product['id'] ?>[product_id]" value="<?= $product['id'] ?>">
+            <input class="form-control" type="number" name="cart<?= $product['id'] ?>[quantity]" value="1" min="0"
+                   max="10">
+            <button type="submit" class="cart-button btn btn-primary" name="cart<?= $product['id'] ?>[submit]" title="В корзину"
                     data-id="<?= $product['id'] ?>"><i class="fas
             fa-cart-arrow-down"></i>
             </button>

@@ -6,6 +6,11 @@
 //echo '<pre>';
 //print_r($_POST);
 //echo '</pre>';
+//
+//echo '<pre>';
+//print_r($_COOKIE);
+//echo '</pre>';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,36 +40,30 @@
           <a class="nav-link" href="/feedbacks">Отзывы</a>
         </li>
       </ul>
-        <?php if ($_SESSION['isAuth']) : ?>
-          <div class="text-white-50">Вы вошли как: <a href="/profile"><?= $_SESSION['user_name'] ?> </a></div>
-        <?php else: ?>
-          <a href="/login" class="nav-link">Вход</a>
-          <a href="/register" class="nav-link">Регистрация</a>
+      <?php if ($_SESSION['isAuth']) : ?>
+        <div class="text-white-50">Вы вошли как: <a href="/profile"><?= $_SESSION['user_name'] ?> </a></div>
+      <?php else: ?>
+        <a href="/login" class="nav-link">Вход</a>
+        <a href="/register" class="nav-link">Регистрация</a>
+      <?php endif; ?>
+      <button class="btn cart-toggle btn-success ml-3" type="button"><i
+            class="fas fa-shopping-cart"></i>
+        <?php if (isset($_COOKIE['idCart'])): ?>
+          <span class="badge badge-light"><?= calculateCartCount($_COOKIE['idCart'])?></span>
         <?php endif; ?>
-      <button class="btn btn-success ml-3" type="button"><i
-            class="fas fa-shopping-cart"></i></button>
+      </button>
     </div>
   </nav>
   <div class="d-flex justify-content-end">
-    <div class="cart-content">
-      <!--        <div class="cart-item">-->
-      <!--          <div class="cart-item-img">-->
-      <!--            <img :src="defaultImg" :alt="product.product_name">-->
-      <!--          </div>-->
-      <!--          <div class="cart-item-name">{{ product.product_name }}</div>-->
-      <!--          <div class="cart-item-qty">{{ product.quantity }}</div>-->
-      <!--          <div class="cart-item-sum">{{ product.price * product.quantity }}</div>-->
-      <!--          <a @click.prevent="deleteFromCart(product)" href="#" class="cart-item-delete" :data-id="product.id_product"><i-->
-      <!--              class="fas fa-times-circle"></i></a>-->
-      <!--        </div>-->
-    </div>
+    <?php require_once TEMPLATES_DIR . 'header_cart.php' ?>
   </div>
 </header>
 <main>
   <div class="container">
-      <?php include_once TEMPLATES_DIR . getTemplate(); ?>
+    <?php include_once TEMPLATES_DIR . getTemplate(); ?>
   </div>
 </main>
+<script src="js/script.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

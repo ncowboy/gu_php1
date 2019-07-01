@@ -38,7 +38,8 @@ function getItemById($id, $table)
 
 }
 
-function getItemByParam($param, $value, $table) {
+function getItemByParam($param, $value, $table)
+{
   $sql = "SELECT * FROM {$table} WHERE {$param}='{$value}'";
   $result = result(connect(), $sql);
   mysqli_close(connect());
@@ -47,23 +48,21 @@ function getItemByParam($param, $value, $table) {
 
 function addItem($table, $values = null)
 {
-    var_dump('wtf');
-    $columns = '';
+  $columns = '';
   $vals = '';
-  foreach ($values as $key => $value) {
-    $columns .= $key . ', ';
-    $vals .= '\'' . $value . '\'' . ', ';
+  if (isset($values)) {
+    foreach ($values as $key => $value) {
+      $columns .= $key . ', ';
+      $vals .= '\'' . $value . '\'' . ', ';
+    }
   }
   $columnsFormatted = mb_substr($columns, 0, mb_strlen($columns) - 2);
   $valsFormatted = mb_substr($vals, 0, mb_strlen($vals) - 2);
   $sql = "INSERT INTO {$table}({$columnsFormatted})";
-  echo $sql;
-  if(!is_null($values)){
-      $sql .= " VALUES({$valsFormatted})";
-  }
-
-  if (result(connect(), $sql)) {
-    return mysqli_insert_id(connect());
+  $sql .= " VALUES({$valsFormatted})";
+  $connect = connect();
+  if (result($connect, $sql)) {
+    return mysqli_insert_id($connect);
   }
 }
 
@@ -118,9 +117,9 @@ function addUser($values)
   return addItem('users', $values);
 }
 
-function addCart(){
-    echo 'wtf';
-    return addItem('carts');
+function addCart()
+{
+  return addItem('carts');
 }
 
 function getUser($login)
@@ -136,4 +135,39 @@ function deleteFeedback($id)
 function updateFeedback($id, $values)
 {
   return updateItem($id, 'feedbacks', $values);
+}
+
+function addProductInCart($productId, $cartId, $qty)
+{
+  $sql = "INSERT INTO products_in_cart(product_id, cart_id, quantity) VALUES ({$productId}, {$cartId}, {$qty})";
+  if (result(connect(), $sql)) {
+    return mysqli_close(connect());
+  }
+}
+
+function getCart($id)
+{
+  $items = [];
+  $sql = "SELECT * FROM products_in_cart WHERE cart_id={$id}";
+  $result = result(connect(), $sql);
+  while ($row = mysqli_fetch_assoc($result)) {
+    $items[] = $row;
+  }
+  mysqli_close(connect());
+  return $items;
+}
+
+function increaseProductInCartQty($product_id, $cart_id, $qty)
+{
+  $sql = "UPDATE products_in_cart SET quantity = quantity + {$qty} WHERE cart_id={$cart_id} AND product_id={$product_id}";
+  if (result(connect(), $sql)) {
+    return mysqli_close(connect());
+  }
+
+}
+
+function calculateCartCount($id)
+{
+  $sql = "SELECT SUM(quantity) FROM products_in_cart WHERE cart_id={$id}";
+    return mysqli_fetch_row(result(connect(), $sql))[0];
 }
