@@ -1,14 +1,10 @@
 <?php
 require_once ENGINE_DIR . 'db.lib.php';
-
-if (isset($_POST) && is_integer(mb_strpos(key($_POST), 'cart'))) {
-  $cart = $_POST[key($_POST)];
-}
-$productId = $cart['product_id'] ?? '';
-$qty = $cart['quantity'] ?? '';
-$cartId = $_COOKIE['idCart'] ?? false;
-
-if ($cart && isset($cart['submit'])) {
+if (isset($_POST['cart'])) {
+  $cart = $_POST['cart'];
+  $productId = $cart['product_id'] ?? '';
+  $qty = $cart['quantity'] ?? '';
+  $cartId = $_COOKIE['idCart'] ?? false;
   $cartId ? updateCart($cartId, $productId, $qty) : createCart($productId, $qty);
 }
 
