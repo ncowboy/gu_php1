@@ -8,7 +8,7 @@
         <h5 class="card-title"><?= $product['name'] ?></h5>
         <p class="card-text">Цена: <?= $product['price'] ?> р.</p>
         <a href="product?id=<?= $product['id'] ?>" class="btn btn-link">Подробнее</a>
-        <form class="form-inline" action="/" method="post">
+        <form class="form-inline" action="#" method="post">
           <div class="btn-group mx-auto">
             <input type="hidden" name="cart<?= $product['id'] ?>[product_id]" value="<?= $product['id'] ?>">
             <input class="form-control" type="number" name="cart<?= $product['id'] ?>[quantity]" value="1" min="0"
